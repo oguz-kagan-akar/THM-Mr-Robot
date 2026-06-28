@@ -1,13 +1,19 @@
-````markdown
 # 🤖 Mr. Robot CTF Write-up
 
 > **Platform:** TryHackMe  
 > **Difficulty:** Easy  
 > **Operating System:** Linux  
-> **Status:** ✅ Rooted  
+> **Status:**  Rooted  
 > **Date Completed:** 28/06/2026
+> ---
 
-![Room](pictures/mrrobot.png)
+## 📝 Author's Note
+
+This write-up documents my personal approach to solving the room. Every command, screenshot, and technical step was performed by me during the challenge.
+
+AI assistance was used solely to improve the grammar, readability, and Markdown formatting of this document.
+
+![Room](/pictures/mrrobot.png)
 
 ---
 
@@ -36,22 +42,22 @@ This room introduced me to several fundamental penetration testing concepts, inc
 The first step was performing an Nmap scan against the target.
 
 ```bash
-nmap -A <target-ip>
-````
+nmap -sS -sV <target-ip>
+```
 
-![Nmap](pictures/nmap.png)
+![Nmap](/pictures/nmap.png)
 
 The scan revealed an HTTP service running on port 80.
 
 After opening the website, the first file I checked was `robots.txt`.
 
-![robots](pictures/robots.png)
+![robots](/pictures/robots.png)
 
 Inside `robots.txt` I discovered the first flag together with the `fsocity.dic` wordlist.
 
 While manually exploring the website, I also launched Gobuster to enumerate hidden directories.
 
-![Gobuster](pictures/gobuster.png)
+![Gobuster](/pictures/gobuster.png)
 
 Gobuster revealed that the application was running on WordPress, which I had also confirmed by inspecting the page source.
 
@@ -61,13 +67,13 @@ Gobuster revealed that the application was running on WordPress, which I had als
 
 I started WPScan looking for vulnerable plugins and themes.
 
-![WPScan](pictures/wpscan.png)
+![WPScan](/pictures/wpscan.png)
 
 Initially nothing useful appeared, so I went back to `robots.txt` and noticed the `fsocity.dic` wordlist. I then used WPScan to perform a password attack against the WordPress login through XML-RPC.
 
 After some time I successfully recovered valid administrator credentials and logged into the WordPress dashboard.
 
-![WordPress Admin](pictures/wpadmin.png)
+![WordPress Admin](/pictures/wpadmin.png)
 
 ---
 
@@ -77,7 +83,7 @@ My first idea was uploading a malicious plugin, but plugin uploads were disabled
 
 Instead, I opened the Theme Editor and modified `archive.php`, replacing its contents with a PHP reverse shell.
 
-![Archive](pictures/archive.png)
+![Archive](/pictures/archive.png)
 
 On my Kali machine I started a Netcat listener.
 
@@ -87,7 +93,7 @@ nc -lvnp 4444
 
 After opening the edited archive page, the reverse shell connected back to my machine.
 
-![Reverse Shell](pictures/netcat2.png)
+![Reverse Shell](/pictures/netcat2.png)
 
 ---
 
@@ -95,7 +101,7 @@ After opening the edited archive page, the reverse shell connected back to my ma
 
 Inside the compromised machine I found two interesting files in the robot user's home directory. One contained the second flag, while the other stored an MD5 password hash.
 
-![Password Hash](pictures/hash.png)
+![Password Hash](/pictures/hash.png)
 
 The hash was:
 
@@ -111,7 +117,7 @@ I then switched to the robot account.
 su robot
 ```
 
-![Flag 2](pictures/flag2.png)
+![Flag 2](/pictures/flag2.png)
 
 After gaining access to the robot account, I searched the system for SUID binaries.
 
@@ -119,7 +125,7 @@ After gaining access to the robot account, I searched the system for SUID binari
 find / -perm -4000 -type f 2>/dev/null
 ```
 
-![SUID Enumeration](pictures/nmap1.png)
+![SUID Enumeration](/pictures/nmap1.png)
 
 Among the results, `/usr/local/bin/nmap` immediately caught my attention. It was an old version of Nmap with the SUID bit enabled.
 
@@ -137,7 +143,7 @@ Inside interactive mode I executed:
 
 A root shell was spawned successfully.
 
-![Root Shell](pictures/root.png)
+![Root Shell](/pictures/root.png)
 
 I verified my privileges:
 
@@ -153,7 +159,7 @@ root
 
 Finally, I navigated to the root directory and obtained the last flag.
 
-![Flag 3](pictures/flag3.png)
+![Flag 3](/pictures/flag3.png)
 
 ---
 
@@ -161,7 +167,7 @@ Finally, I navigated to the root directory and obtained the last flag.
 
 After submitting the final flag, the room was successfully completed.
 
-![Completed](pictures/finish.png)
+![Completed](/pictures/finish.png)
 
 ---
 
@@ -171,14 +177,11 @@ This room reinforced one of the most important lessons in penetration testing: *
 
 A single overlooked file (`robots.txt`) completely changed the attack path. Throughout this challenge I practiced:
 
-* Enumeration with Nmap and Gobuster
-* WordPress reconnaissance
-* Password attacks with WPScan
-* Reverse shell techniques
-* Hash identification and password recovery
-* Linux privilege escalation through SUID binaries
+- Enumeration with Nmap and Gobuster
+- WordPress reconnaissance
+- Password attacks with WPScan
+- Reverse shell techniques
+- Hash identification and password recovery
+- Linux privilege escalation through SUID binaries
 
 Overall, this room was an excellent introduction to web exploitation and privilege escalation. It was both enjoyable and educational, and I highly recommend it to beginners who want to strengthen their penetration testing fundamentals.
-
-```
-```
