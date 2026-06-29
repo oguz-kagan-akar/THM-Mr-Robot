@@ -2,8 +2,7 @@
 
 > **Platform:** TryHackMe  
 > **Difficulty:** Easy  
-> **Operating System:** Linux  
-> **Status:**  Rooted  
+> **Operating System:** Linux    
 > **Date Completed:** 28/06/2026
 > ---
 
@@ -170,18 +169,6 @@ After submitting the final flag, the room was successfully completed.
 ![Completed](/pictures/finish.png)
 
 ---
-
-# 🎯 Lessons Learned
-
-This room reinforced one of the most important lessons in penetration testing: **enumeration is everything**.
-
-A single overlooked file (`robots.txt`) completely changed the attack path. Throughout this challenge I practiced:
-
-- Enumeration with Nmap and Gobuster
-- WordPress reconnaissance
-- Password attacks with WPScan
-- Reverse shell techniques
-- Hash identification and password recovery
-- Linux privilege escalation through SUID binaries
+ escalation through SUID binaries
 
 Overall, this room was an excellent introduction to web exploitation and privilege escalation. It was both enjoyable and educational, and I highly recommend it to beginners who want to strengthen their penetration testing fundamentals.
