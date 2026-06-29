@@ -169,6 +169,4 @@ After submitting the final flag, the room was successfully completed.
 ![Completed](/pictures/finish.png)
 
 ---
- escalation through SUID binaries
-
-Overall, this room was an excellent introduction to web exploitation and privilege escalation. It was both enjoyable and educational, and I highly recommend it to beginners who want to strengthen their penetration testing fundamentals.
+I would recommend this room to beginners.
