@@ -1,10 +1,4 @@
-# 🤖 Mr. Robot CTF Write-up
 
-> **Platform:** TryHackMe  
-> **Difficulty:** Easy  
-> **Operating System:** Linux    
-> **Date Completed:** 28/06/2026
-> ---
 
 ## 📝 Author's Note
 
